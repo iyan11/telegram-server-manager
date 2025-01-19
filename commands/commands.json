@@ -1,0 +1,12 @@
+[
+  {
+    "command" : "reboot",
+    "description": "Перезагрузка сервера (sh)",
+    "script" : "reboot.sh"
+  },
+  {
+    "command" : "shutdown",
+    "description": "Выключение сервера (bat)",
+    "script" : "shutdown.bat"
+  }
+]
