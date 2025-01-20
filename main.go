@@ -44,6 +44,11 @@ func main() {
 		log.Panic("ALLOWED_TELEGRAM_USER_ID is not set in .env file")
 	}
 
+	otherCommands := os.Getenv("OTHER_COMMANDS")
+	if otherCommands == "" {
+		log.Panic("OTHER_COMMANDS is not set in .env file")
+	}
+
 	allowedUserID, err := strconv.Atoi(allowedUserIDStr)
 	if err != nil {
 		log.Panic("Invalid ALLOWED_TELEGRAM_USER_ID in .env file: must be an integer")
@@ -102,9 +107,11 @@ func main() {
 		default:
 			// Если команда не найдена в JSON, выполняем как shell-команду
 			if !handleCustomCommand(bot, update.Message.Chat.ID, update.Message.Text, commands) {
-				output := executeCommand(update.Message.Text)
-				if output != nil {
-					sendMessage(bot, update.Message.Chat.ID, string(output), false)
+				if otherCommands == "yes" {
+					output := executeCommand(update.Message.Text)
+					if output != nil {
+						sendMessage(bot, update.Message.Chat.ID, string(output), false)
+					}
 				}
 			}
 		}
